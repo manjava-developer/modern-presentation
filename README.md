@@ -27,7 +27,7 @@
 
 ## 📌 License & Attribution
 - This project is **based on AGPL-3.0** from [PPTist](https://github.com/pipipi-pikachu/PPTist)
-- Modifications and additional code by **Manjava Developer / [Your Name]** are also under **AGPL-3.0**
+- Modifications and additional code by **Manjava Developer** are also under **AGPL-3.0**
 - The original LICENSE file is included
 - Attribution must be kept in the README
 
