@@ -12,8 +12,10 @@ import '@/assets/styles/font.scss'
 
 import Icon from '@/plugins/icon'
 import Directive from '@/plugins/directive'
+import router from './router'
 
 const app = createApp(App)
+app.use(router)
 app.use(Icon)
 app.use(Directive)
 app.use(createPinia())

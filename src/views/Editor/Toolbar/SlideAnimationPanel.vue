@@ -2,9 +2,9 @@
   <div class="slide-animation-panel">
     <div class="animation-pool">
       <div 
-        class="animation-item" 
-        :class="{ 'active': currentTurningMode === item.value }" 
-        v-for="item in animations" 
+        class="animation-item"
+        :class="{ 'active': currentTurningMode === item.value }"
+        v-for="item in animations"
         :key="item.label"
         @click="updateTurningMode(item.value)"
       >
@@ -35,14 +35,14 @@ const animations = SLIDE_ANIMATIONS
 
 const { addHistorySnapshot } = useHistorySnapshot()
 
-// 修改播放时的切换页面方式
+// Modify the page switching method during playback
 const updateTurningMode = (mode: TurningMode) => {
   if (mode === currentTurningMode.value) return
   slidesStore.updateSlide({ turningMode: mode })
   addHistorySnapshot()
 }
 
-// 将当前页的切换页面方式应用到全部页面
+// Apply the current page's page switching method to all pages
 const applyAllSlide = () => {
   const newSlides = slides.value.map(slide => {
     return {
@@ -51,7 +51,7 @@ const applyAllSlide = () => {
     }
   })
   slidesStore.setSlides(newSlides)
-  message.success('已应用到全部')
+  message.success('All have been applied')
   addHistorySnapshot()
 }
 </script>
