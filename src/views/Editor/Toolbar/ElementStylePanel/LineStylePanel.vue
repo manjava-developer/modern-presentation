@@ -1,7 +1,7 @@
 <template>
   <div class="line-style-panel">
     <div class="row">
-      <div style="width: 40%;">线条样式：</div>
+      <div style="width: 40%;">Line Style</div>
       <SelectCustom style="width: 60%;">
         <template #options>
           <div class="option" v-for="item in lineStyleOptions" :key="item" @click="updateLine({ style: item })">
@@ -14,7 +14,7 @@
       </SelectCustom>
     </div>
     <div class="row">
-      <div style="width: 40%;">线条颜色：</div>
+      <div style="width: 40%;">Line color</div>
       <Popover trigger="click" style="width: 60%;">
         <template #content>
           <ColorPicker
@@ -26,16 +26,16 @@
       </Popover>
     </div>
     <div class="row">
-      <div style="width: 40%;">线条宽度：</div>
-      <NumberInput 
-        :value="handleLineElement.width" 
-        @update:value="value => updateLine({ width: value })" 
-        style="width: 60%;" 
+      <div style="width: 40%;">Line width</div>
+      <NumberInput
+        :value="handleLineElement.width"
+        @update:value="value => updateLine({ width: value })"
+        style="width: 60%;"
       />
     </div>
-    
+
     <div class="row">
-      <div style="width: 40%;">起点样式：</div>
+      <div style="width: 40%;">Starting Point</div>
       <SelectCustom style="width: 60%;">
         <template #options>
           <div class="option" v-for="item in lineMarkerOptions" :key="item" @click="updateLine({ points: [item, handleLineElement.points[1]] })">
@@ -48,7 +48,7 @@
       </SelectCustom>
     </div>
     <div class="row">
-      <div style="width: 40%;">终点样式：</div>
+      <div style="width: 40%;">End point</div>
       <SelectCustom style="width: 60%;">
         <template #options>
           <div class="option" v-for="item in lineMarkerOptions" :key="item" @click="updateLine({ points: [handleLineElement.points[0], item] })">
@@ -64,7 +64,7 @@
     <Divider />
 
     <div class="row">
-      <Button style="flex: 1;" @click="updateLine({ start: handleLineElement.end, end: handleLineElement.start })"><IconSwitch /> 交换方向</Button>
+      <Button style="flex: 1;" @click="updateLine({ start: handleLineElement.end, end: handleLineElement.start })"><IconSwitch /> Switch directions</Button>
     </div>
 
     <Divider />

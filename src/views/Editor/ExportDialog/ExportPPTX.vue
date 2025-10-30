@@ -2,18 +2,18 @@
   <div class="export-pptx-dialog">
     <div class="configs">
       <div class="row">
-        <div class="title">导出范围：</div>
+        <div class="title">Export Range:</div>
         <RadioGroup
           class="config-item"
           v-model:value="rangeType"
         >
-          <RadioButton style="width: 33.33%;" value="all">全部</RadioButton>
-          <RadioButton style="width: 33.33%;" value="current">当前页</RadioButton>
-          <RadioButton style="width: 33.33%;" value="custom">自定义</RadioButton>
+          <RadioButton style="width: 25%;" value="all">All</RadioButton>
+          <RadioButton style="width: 45%;" value="current">Current Slide</RadioButton>
+          <RadioButton style="width: 30%;" value="custom">Custom</RadioButton>
         </RadioGroup>
       </div>
       <div class="row" v-if="rangeType === 'custom'">
-        <div class="title" :data-range="`（${range[0]} ~ ${range[1]}）`">自定义范围：</div>
+        <div class="title" :data-range="`(${range[0]} ~ ${range[1]})`">Custom Range:</div>
         <Slider
           class="config-item"
           range
@@ -24,28 +24,30 @@
         />
       </div>
       <div class="row">
-        <div class="title">忽略音频/视频：</div>
+        <div class="title">Ignore Audio/Video</div>
         <div class="config-item">
-          <Switch v-model:value="ignoreMedia" v-tooltip="'导出时默认忽略音视频，若您的幻灯片中存在音视频元素，且希望将其导出到PPTX文件中，可选择关闭【忽略音视频】选项，但要注意这将会大幅增加导出用时。'" />
+          <Switch v-model:value="ignoreMedia" v-tooltip="'By default, audio/video elements are ignored during export. If your slides contain audio or video and you want to include them in the PPTX file, disable the Ignore Audio/Video option. Note: this may significantly increase export time.'" />
         </div>
       </div>
       <div class="row">
-        <div class="title">覆盖默认母版：</div>
+        <div class="title">Overwrite Default Master:</div>
         <div class="config-item">
           <Switch v-model:value="masterOverwrite" />
         </div>
       </div>
 
       <div class="tip" v-if="!ignoreMedia">
-        提示：1. 支持导出格式：avi、mp4、mov、wmv、mp3、wav；2. 跨域资源无法导出。
+        Tip: 1. Supported export formats: avi, mp4, mov, wmv, mp3, wav; 2. Cross-origin resources cannot be exported.
       </div>
     </div>
     <div class="btns">
-      <Button class="btn export" type="primary" @click="exportPPTX(selectedSlides, masterOverwrite, ignoreMedia)"><IconDownload /> 导出 PPTX</Button>
-      <Button class="btn close" @click="emit('close')">关闭</Button>
+      <Button class="btn export" type="primary" @click="exportPPTX(selectedSlides, masterOverwrite, ignoreMedia)">
+        <IconDownload /> Export PPTX
+      </Button>
+      <Button class="btn close" @click="emit('close')">Close</Button>
     </div>
 
-    <FullscreenSpin :loading="exporting" tip="正在导出..." />
+    <FullscreenSpin :loading="exporting" tip="Exporting..." />
   </div>
 </template>
 
@@ -96,7 +98,7 @@ const selectedSlides = computed(() => {
   overflow: hidden;
 }
 .configs {
-  width: 350px;
+  width: 450px;
   height: calc(100% - 80px);
   display: flex;
   flex-direction: column;
@@ -110,7 +112,7 @@ const selectedSlides = computed(() => {
   }
 
   .title {
-    width: 100px;
+    width: 160px;
     position: relative;
 
     &::after {

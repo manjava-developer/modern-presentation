@@ -15,12 +15,12 @@
     <Divider />
 
     <div class="row">
-      <div style="width: 40%;">行间距：</div>
+      <div style="width: 40%;">Line Spacing：</div>
       <Select style="width: 60%;"
         :value="lineHeight || 1"
         @update:value="value => updateLineHeight(value as number)"
         :options="lineHeightOptions.map(item => ({
-          label: item + '倍', value: item
+          label: item + ' px', value: item
         }))"
       >
         <template #icon>
@@ -29,12 +29,12 @@
       </Select>
     </div>
     <div class="row">
-      <div style="width: 40%;">段间距：</div>
+      <div style="width: 40%;">Segmen Spacing :</div>
       <Select style="width: 60%;"
         :value="paragraphSpace || 0"
         @update:value="value => updateParagraphSpace(value as number)"
         :options="paragraphSpaceOptions.map(item => ({
-          label: item + 'px', value: item
+          label: item + ' px', value: item
         }))"
       >
         <template #icon>
@@ -43,7 +43,7 @@
       </Select>
     </div>
     <div class="row">
-      <div style="width: 40%;">字间距：</div>
+      <div style="width: 40%;">Character spacing:</div>
       <Select style="width: 60%;"
         :value="wordSpace || 0"
         @update:value="value => updateWordSpace(value as number)"
@@ -57,7 +57,7 @@
       </Select>
     </div>
     <div class="row">
-      <div style="width: 40%;">文本框填充：</div>
+      <div style="width: 40%;">Text box fill:</div>
       <Popover trigger="click" style="width: 60%;">
         <template #content>
           <ColorPicker
@@ -100,7 +100,7 @@ import Popover from '@/components/Popover.vue'
 // 因此在执行预置样式命令时，将加粗命令放在尽可能靠前的位置，避免字号增大后再加粗
 const presetStyles = [
   {
-    label: '大标题',
+    label: 'Title',
     style: {
       fontSize: '26px',
       fontWeight: 700,
@@ -113,7 +113,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '小标题',
+    label: 'Subtitle',
     style: {
       fontSize: '22px',
       fontWeight: 700,
@@ -126,7 +126,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '正文',
+    label: 'Body Text',
     style: {
       fontSize: '20px',
     },
@@ -136,7 +136,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '正文[小]',
+    label: 'Body (Small)',
     style: {
       fontSize: '18px',
     },
@@ -146,7 +146,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '注释 1',
+    label: 'Note 1',
     style: {
       fontSize: '16px',
       fontStyle: 'italic',
@@ -158,7 +158,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '注释 2',
+    label: 'Note 2',
     style: {
       fontSize: '16px',
       textDecoration: 'underline',
@@ -170,6 +170,7 @@ const presetStyles = [
     ],
   },
 ]
+
 
 const mainStore = useMainStore()
 const slidesStore = useSlidesStore()

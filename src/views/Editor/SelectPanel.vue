@@ -3,15 +3,15 @@
     class="select-panel" 
     :width="200" 
     :height="360" 
-    :title="`选择（${activeElementIdList.length}/${currentSlide.elements.length}）`" 
+    :title="`Selection (${activeElementIdList.length}/${currentSlide.elements.length})`" 
     :left="-270" 
     :top="90"
     @close="close()"
   >
     <div class="handler" v-if="elements.length">
       <div class="btns">
-        <Button size="small" style="margin-right: 5px;" @click="showAllElements()">全部显示</Button>
-        <Button size="small" @click="hideAllElements()">全部隐藏</Button>
+        <Button size="small" style="margin-right: 5px;" @click="showAllElements()">Show All</Button>
+        <Button size="small" @click="hideAllElements()">Hide All</Button>
       </div>
       <div class="icon-btns" v-if="handleElement">
         <IconDown class="icon-btn" @click="orderElement(handleElement!, ElementOrderCommands.UP)" />
@@ -21,7 +21,7 @@
     <div class="element-list">
       <template v-for="item in elements" :key="item.id">
         <div class="group-els" v-if="item.type === 'group'">
-          <div class="group-title">组合</div>
+          <div class="group-title">Group</div>
           <div 
             class="item" 
             :class="{
@@ -36,14 +36,14 @@
           >
             <input 
               :id="`select-panel-input-${groupItem.id}`" 
-              :value="groupItem.name || ELEMENT_TYPE_ZH[groupItem.type]" 
+              :value="groupItem.name || ELEMENT_TYPE_EN[groupItem.type]" 
               class="input" 
               type="text" 
               v-if="editingElId === groupItem.id" 
               @blur="$event => saveElementName($event, groupItem.id)"
               @keydown.enter="$event => saveElementName($event, groupItem.id)"
             >
-            <div v-else class="name">{{groupItem.name || ELEMENT_TYPE_ZH[groupItem.type]}}</div>
+            <div v-else class="name">{{groupItem.name || ELEMENT_TYPE_EN[groupItem.type]}}</div>
             <div class="icons">
               <IconLock class="icon" style="font-size: 14px;" @click="unlockElement(groupItem)" v-if="groupItem.lock" />
               <div class="icon" style="width: 14px;" v-else />
@@ -64,14 +64,14 @@
         >
           <input 
             :id="`select-panel-input-${item.id}`" 
-            :value="item.name || ELEMENT_TYPE_ZH[item.type]" 
+            :value="item.name || ELEMENT_TYPE_EN[item.type]" 
             class="input" 
             type="text" 
             v-if="editingElId === item.id" 
             @blur="$event => saveElementName($event, item.id)"
             @keydown.enter="$event => saveElementName($event, item.id)"
           >
-          <div v-else class="name">{{item.name || ELEMENT_TYPE_ZH[item.type]}}</div>
+          <div v-else class="name">{{item.name || ELEMENT_TYPE_EN[item.type]}}</div>
           <div class="icons">
             <IconLock class="icon" style="font-size: 14px;" @click="unlockElement(item)" v-if="item.lock" />
             <div class="icon" style="width: 14px;" v-else />
@@ -89,7 +89,7 @@ import { computed, nextTick, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore, useMainStore } from '@/store'
 import type { PPTElement } from '@/types/slides'
-import { ELEMENT_TYPE_ZH } from '@/configs/element'
+import { ELEMENT_TYPE_EN } from '@/configs/element'
 import useOrderElement from '@/hooks/useOrderElement'
 import useHideElement from '@/hooks/useHideElement'
 import useSelectElement from '@/hooks/useSelectElement'

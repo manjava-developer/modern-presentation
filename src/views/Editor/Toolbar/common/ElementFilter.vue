@@ -1,11 +1,11 @@
 <template>
   <div class="element-filter">
     <div class="row">
-      <div style="flex: 2;">启用滤镜：</div>
+      <div style="flex: 2;">Enable filter</div>
       <div class="switch-wrapper" style="flex: 3;">
         <Switch 
-          :value="hasFilters" 
-          @update:value="value => toggleFilters(value)" 
+          :value="hasFilters"
+          @update:value="value => toggleFilters(value)"
         />
       </div>
     </div>

@@ -11,7 +11,7 @@
     @click="autoHideController()"
   >
     <div class="video-wrap" @click="toggle()">
-      <div class="load-error" v-if="loadError">视频加载失败</div>
+      <div class="load-error" v-if="loadError">Video loading failed</div>
 
       <canvas ref="bgCanvasRef" class="bg-canvas"></canvas>
       <video

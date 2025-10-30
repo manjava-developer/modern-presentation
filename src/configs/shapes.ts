@@ -247,7 +247,7 @@ export const SHAPE_PATH_FORMULAS: {
 
 export const SHAPE_LIST: ShapeListItem[] = [
   {
-    type: '矩形',
+    type: 'Rectangle',
     children: [
       {
         viewBox: [200, 200],
@@ -306,7 +306,7 @@ export const SHAPE_LIST: ShapeListItem[] = [
   },
 
   {
-    type: '常用形状',
+    type: 'Common shapes',
     children: [
       {
         viewBox: [200, 200],
@@ -635,9 +635,9 @@ export const SHAPE_LIST: ShapeListItem[] = [
       },
     ],
   },
-  
+
   {
-    type: '箭头',
+    type: 'Arrows',
     children: [
       {
         viewBox: [200, 200],
@@ -755,7 +755,7 @@ export const SHAPE_LIST: ShapeListItem[] = [
   },
 
   {
-    type: '其他形状',
+    type: 'Other shapes',
     children: [
       {
         viewBox: [1024, 1024],
@@ -941,7 +941,7 @@ export const SHAPE_LIST: ShapeListItem[] = [
   },
 
   {
-    type: '线性',
+    type: 'Linear',
     children: [
       {
         viewBox: [1024, 1024],

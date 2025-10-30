@@ -66,6 +66,7 @@ $subMenuWidth: 120px;
   cursor: pointer;
 
   &:not(.disable):hover > .menu-item-content > .sub-menu {
+    width: auto;
     display: block;
   }
 

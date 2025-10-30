@@ -1,27 +1,47 @@
 <template>
   <div class="element-positopn-panel">
-    <div class="title">层级：</div>
+    <div class="title">Layer:</div>
     <ButtonGroup class="row">
-      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.TOP)"><IconSendToBack /> 置顶</Button>
-      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.BOTTOM)"><IconBringToFrontOne /> 置底</Button>
+      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.TOP)">
+        <IconSendToBack />
+      </Button>
+      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.BOTTOM)">
+        <IconBringToFrontOne />
+      </Button>
     </ButtonGroup>
     <ButtonGroup class="row">
-      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.UP)"><IconBringToFront /> 上移</Button>
-      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.DOWN)"><IconSentToBack /> 下移</Button>
+      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.UP)">
+        <IconBringToFront />
+      </Button>
+      <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.DOWN)">
+        <IconSentToBack />
+      </Button>
     </ButtonGroup>
 
     <Divider />
-    
-    <div class="title">对齐：</div>
+
+    <div class="title">Align:</div>
     <ButtonGroup class="row">
-      <Button style="flex: 1;" v-tooltip="'左对齐'" @click="alignElementToCanvas(ElementAlignCommands.LEFT)"><IconAlignLeft /></Button>
-      <Button style="flex: 1;" v-tooltip="'水平居中'" @click="alignElementToCanvas(ElementAlignCommands.HORIZONTAL)"><IconAlignVertically /></Button>
-      <Button style="flex: 1;" v-tooltip="'右对齐'" @click="alignElementToCanvas(ElementAlignCommands.RIGHT)"><IconAlignRight /></Button>
+      <Button style="flex: 1;" v-tooltip="'Align Left'" @click="alignElementToCanvas(ElementAlignCommands.LEFT)">
+        <IconAlignLeft />
+      </Button>
+      <Button style="flex: 1;" v-tooltip="'Align Center (Horizontal)'" @click="alignElementToCanvas(ElementAlignCommands.HORIZONTAL)">
+        <IconAlignVertically />
+      </Button>
+      <Button style="flex: 1;" v-tooltip="'Align Right'" @click="alignElementToCanvas(ElementAlignCommands.RIGHT)">
+        <IconAlignRight />
+      </Button>
     </ButtonGroup>
     <ButtonGroup class="row">
-      <Button style="flex: 1;" v-tooltip="'上对齐'" @click="alignElementToCanvas(ElementAlignCommands.TOP)"><IconAlignTop /></Button>
-      <Button style="flex: 1;" v-tooltip="'垂直居中'" @click="alignElementToCanvas(ElementAlignCommands.VERTICAL)"><IconAlignHorizontally /></Button>
-      <Button style="flex: 1;" v-tooltip="'下对齐'" @click="alignElementToCanvas(ElementAlignCommands.BOTTOM)"><IconAlignBottom /></Button>
+      <Button style="flex: 1;" v-tooltip="'Align Top'" @click="alignElementToCanvas(ElementAlignCommands.TOP)">
+        <IconAlignTop />
+      </Button>
+      <Button style="flex: 1;" v-tooltip="'Align Middle (Vertical)'" @click="alignElementToCanvas(ElementAlignCommands.VERTICAL)">
+        <IconAlignHorizontally />
+      </Button>
+      <Button style="flex: 1;" v-tooltip="'Align Bottom'" @click="alignElementToCanvas(ElementAlignCommands.BOTTOM)">
+        <IconAlignBottom />
+      </Button>
     </ButtonGroup>
 
     <Divider />
@@ -35,7 +55,7 @@
         style="width: 45%;"
       >
         <template #prefix>
-          水平：
+          Horizontal:
         </template>
       </NumberInput>
       <div style="width: 10%;"></div>
@@ -47,7 +67,7 @@
         style="width: 45%;"
       >
         <template #prefix>
-          垂直：
+          Vertical:
         </template>
       </NumberInput>
     </div>
@@ -64,25 +84,40 @@
           style="width: 45%;"
         >
           <template #prefix>
-            宽度：
+            Width:
           </template>
         </NumberInput>
+
         <template v-if="['image', 'shape', 'audio'].includes(handleElement!.type)">
-          <IconLock style="width: 10%;" class="icon-btn active" v-tooltip="'解除宽高比锁定'" @click="updateFixedRatio(false)" v-if="fixedRatio" />
-          <IconUnlock style="width: 10%;" class="icon-btn" v-tooltip="'宽高比锁定'" @click="updateFixedRatio(true)" v-else />
+          <IconLock
+            style="width: 10%;"
+            class="icon-btn active"
+            v-tooltip="'Unlock aspect ratio'"
+            @click="updateFixedRatio(false)"
+            v-if="fixedRatio"
+          />
+          <IconUnlock
+            style="width: 10%;"
+            class="icon-btn"
+            v-tooltip="'Lock aspect ratio'"
+            @click="updateFixedRatio(true)"
+            v-else
+          />
         </template>
+
         <div style="width: 10%;" v-else></div>
-        <NumberInput 
+
+        <NumberInput
           :min="minSize"
           :max="800"
           :step="5"
-          :disabled="isHorizontalText || handleElement!.type === 'table'" 
-          :value="height" 
+          :disabled="isHorizontalText || handleElement!.type === 'table'"
+          :value="height"
           @update:value="value => updateHeight(value)"
           style="width: 45%;"
         >
           <template #prefix>
-            高度：
+            Height:
           </template>
         </NumberInput>
       </div>
@@ -92,23 +127,29 @@
       <Divider />
 
       <div class="row">
-        <NumberInput 
+        <NumberInput
           :min="-180"
           :max="180"
           :step="5"
-          :value="rotate" 
-          @update:value="value => updateRotate(value)" 
-          style="width: 45%;" 
+          :value="rotate"
+          @update:value="value => updateRotate(value)"
+          style="width: 45%;"
         >
           <template #prefix>
-            旋转：
+            Rotate:
           </template>
         </NumberInput>
+
         <div style="width: 7%;"></div>
-        <div class="text-btn" @click="updateRotate45('-')" style="width: 24%;"><IconRotate /> -45°</div>
-        <div class="text-btn" @click="updateRotate45('+')"  style="width: 24%;"><IconRotate :style="{ transform: 'rotateY(180deg)' }" /> +45°</div>
+        <div class="text-btn" @click="updateRotate45('-')" style="width: 24%;">
+          <IconRotate /> -45°
+        </div>
+        <div class="text-btn" @click="updateRotate45('+')" style="width: 24%;">
+          <IconRotate :style="{ transform: 'rotateY(180deg)' }" /> +45°
+        </div>
       </div>
     </template>
+
   </div>
 </template>
 

@@ -2,8 +2,8 @@ import Clipboard from 'clipboard'
 import { decrypt } from '@/utils/crypto'
 
 /**
- * 复制文本到剪贴板
- * @param text 文本内容
+ * Copy text to clipboard
+ * @param text Text content
  */
 export const copyText = (text: string) => {
   return new Promise((resolve, reject) => {
@@ -27,7 +27,7 @@ export const copyText = (text: string) => {
   })
 }
 
-// 读取剪贴板
+// Read the clipboard
 export const readClipboard = (): Promise<string> => {
   return new Promise((resolve, reject) => {
     if (navigator.clipboard?.readText) {
@@ -36,11 +36,11 @@ export const readClipboard = (): Promise<string> => {
         return resolve(text)
       })
     }
-    else reject('浏览器不支持或禁止访问剪贴板，请使用快捷键 Ctrl + V')
+    else reject('If your browser does not support or blocks access to the clipboard, please use the keyboard shortcut. Ctrl + V')
   })
 }
 
-// 解析加密后的剪贴板内容
+// Parse the encrypted clipboard content
 export const pasteCustomClipboardString = (text: string) => {
   let clipboardData
   try {
@@ -53,7 +53,7 @@ export const pasteCustomClipboardString = (text: string) => {
   return clipboardData
 }
 
-// 尝试解析剪贴板内容是否为Excel表格（或类似的）数据格式
+// Try to parse the clipboard content to see if it is an Excel spreadsheet (or similar) data format.
 export const pasteExcelClipboardString = (text: string): string[][] | null => {
   const lines: string[] = text.split('\r\n')
 
@@ -71,7 +71,7 @@ export const pasteExcelClipboardString = (text: string): string[][] | null => {
   return data
 }
 
-// 尝试解析剪贴板内容是否为HTML table代码
+// Try to parse the clipboard content to see if it is HTML table code
 export const pasteHTMLTableClipboardString = (text: string): string[][] | null => {
   const parser = new DOMParser()
   const doc = parser.parseFromString(text, 'text/html')

@@ -29,8 +29,8 @@ const textareaRef = useTemplateRef<HTMLElement>('textareaRef')
 const text = ref('')
 const isFocus = ref(false)
 
-// 自定义v-modal，同步数据
-// 当文本框聚焦时，不执行数据同步
+// Custom v-modal, synchronize data
+// Do not perform data synchronization when the text box is focused
 watch(() => props.value, () => {
   if (isFocus.value) return
   text.value = props.value

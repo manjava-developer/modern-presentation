@@ -1,119 +1,128 @@
 <template>
-  <div class="aippt-dialog">
-    <div class="header">
-      <span class="title">AIPPT</span>
-      <span class="subtite" v-if="step === 'template'">从下方挑选合适的模板生成PPT，或<span class="local" v-tooltip="'上传.pptist格式模板文件'" @click="uploadLocalTemplate()">使用本地模板生成</span></span>
-      <span class="subtite" v-else-if="step === 'outline'">确认下方内容大纲（点击编辑内容，右键添加/删除大纲项），开始选择模板</span>
-      <span class="subtite" v-else>在下方输入您的PPT主题，并适当补充信息，如行业、岗位、学科、用途等</span>
-    </div>
-    
-    <template v-if="step === 'setup'">
-      <Input class="input" 
-        ref="inputRef"
-        v-model:value="keyword" 
-        :maxlength="50" 
-        placeholder="请输入PPT主题，如：大学生职业生涯规划" 
-        @enter="createOutline()"
-      >
-        <template #suffix>
-          <span class="count">{{ keyword.length }} / 50</span>
-          <div class="submit" type="primary" @click="createOutline()"><IconSend class="icon" /> AI 生成</div>
-        </template>
-      </Input>
-      <div class="recommends">
-        <div class="recommend" v-for="(item, index) in recommends" :key="index" @click="setKeyword(item)">{{ item }}</div>
-      </div>
-      <div class="configs">
-        <div class="config-item">
-          <div class="label">语言：</div>
-          <Select 
-            class="config-content"
-            style="width: 80px;"
-            v-model:value="language"
-            :options="[
-              { label: '中文', value: '中文' },
-              { label: '英文', value: 'English' },
-              { label: '日文', value: '日本語' },
-            ]"
-          />
-        </div>
-        <div class="config-item">
-          <div class="label">风格：</div>
-          <Select 
-            class="config-content"
-            style="width: 80px;"
-            v-model:value="style"
-            :options="[
-              { label: '通用', value: '通用' },
-              { label: '学术风', value: '学术风' },
-              { label: '职场风', value: '职场风' },
-              { label: '教育风', value: '教育风' },
-              { label: '营销风', value: '营销风' },
-            ]"
-          />
-        </div>
-        <div class="config-item">
-          <div class="label">模型：</div>
-          <Select 
-            class="config-content"
-            style="width: 190px;"
-            v-model:value="model"
-            :options="[
-              { label: 'GLM-4.5-Flash', value: 'GLM-4.5-Flash' },
-              { label: 'Doubao-Seed-1.6-flash', value: 'ark-doubao-seed-1.6-flash' },
-            ]"
-          />
-        </div>
-        <div class="config-item">
-          <div class="label">配图：</div>
-          <Select 
-            class="config-content"
-            style="width: 100px;"
-            v-model:value="img"
-            :options="[
-              { label: '无', value: '' },
-              { label: '模拟测试', value: 'test' },
-              { label: 'AI搜图', value: 'ai-search', disabled: true },
-              { label: 'AI生图', value: 'ai-create', disabled: true },
-            ]"
-          />
-        </div>
-      </div>
-      <div class="configs" v-if="!isEmptySlide">
-        <div class="config-item">
-          <Checkbox v-model:value="overwrite">覆盖已有幻灯片</Checkbox>
-        </div>
-      </div>
-    </template>
-    <div class="preview" v-if="step === 'outline'">
-      <pre ref="outlineRef" v-if="outlineCreating">{{ outline }}</pre>
-       <div class="outline-view" v-else>
-         <OutlineEditor v-model:value="outline" />
-       </div>
-      <div class="btns" v-if="!outlineCreating">
-        <Button class="btn" type="primary" @click="step = 'template'">选择模板</Button>
-        <Button class="btn" @click="outline = ''; step = 'setup'">返回重新生成</Button>
-      </div>
-    </div>
-    <div class="select-template" v-if="step === 'template'">
-      <div class="templates">
-        <div class="template" 
-          :class="{ 'selected': selectedTemplate === template.id }" 
-          v-for="template in templates" 
-          :key="template.id" 
-          @click="selectedTemplate = template.id"
-        >
-          <img :src="template.cover" :alt="template.name">
-        </div>
-      </div>
-      <div class="btns">
-        <Button class="btn" type="primary" @click="createPPT()">生成</Button>
-        <Button class="btn" @click="step = 'outline'">返回大纲</Button>
-      </div>
-    </div>
-
-    <FullscreenSpin :loading="loading" tip="AI生成中，请耐心等待 ..." />
+<div class="aippt-dialog">
+  <div class="header">
+    <span class="title">AIPPT</span>
+    <span class="subtite" v-if="step === 'template'">
+      Select a suitable template below to generate your PPT, or
+      <span class="local" v-tooltip="'Upload a .pptist format template file'" @click="uploadLocalTemplate()">use a local template</span>
+    </span>
+    <span class="subtite" v-else-if="step === 'outline'">
+      Confirm the content outline below (click to edit, right-click to add/delete items), then choose a template
+    </span>
+    <span class="subtite" v-else>
+      Enter your PPT topic below and provide additional information if necessary, such as industry, role, subject, or purpose
+    </span>
   </div>
+  
+  <template v-if="step === 'setup'">
+    <Input class="input" 
+      ref="inputRef"
+      v-model:value="keyword" 
+      :maxlength="50" 
+      placeholder="Enter your PPT topic, e.g., College Student Career Planning" 
+      @enter="createOutline()"
+    >
+      <template #suffix>
+        <span class="count">{{ keyword.length }} / 50</span>
+        <div class="submit" type="primary" @click="createOutline()"><IconSend class="icon" /> Generate with AI</div>
+      </template>
+    </Input>
+    <div class="recommends">
+      <div class="recommend" v-for="(item, index) in recommends" :key="index" @click="setKeyword(item)">{{ item }}</div>
+    </div>
+    <div class="configs">
+      <div class="config-item">
+        <div class="label">Language:</div>
+        <Select 
+          class="config-content"
+          style="width: 80px;"
+          v-model:value="language"
+          :options="[
+            { label: 'Chinese', value: '中文' },
+            { label: 'English', value: 'English' },
+            { label: 'Japanese', value: '日本語' },
+          ]"
+        />
+      </div>
+      <div class="config-item">
+        <div class="label">Style:</div>
+        <Select 
+          class="config-content"
+          style="width: 80px;"
+          v-model:value="style"
+          :options="[
+            { label: 'General', value: '通用' },
+            { label: 'Academic', value: '学术风' },
+            { label: 'Business', value: '职场风' },
+            { label: 'Educational', value: '教育风' },
+            { label: 'Marketing', value: '营销风' },
+          ]"
+        />
+      </div>
+      <div class="config-item">
+        <div class="label">Model:</div>
+        <Select 
+          class="config-content"
+          style="width: 190px;"
+          v-model:value="model"
+          :options="[
+            { label: 'GLM-4.5-Flash', value: 'GLM-4.5-Flash' },
+            { label: 'Doubao-Seed-1.6-flash', value: 'ark-doubao-seed-1.6-flash' },
+          ]"
+        />
+      </div>
+      <div class="config-item">
+        <div class="label">Images:</div>
+        <Select 
+          class="config-content"
+          style="width: 100px;"
+          v-model:value="img"
+          :options="[
+            { label: 'None', value: '' },
+            { label: 'Mock/Test', value: 'test' },
+            { label: 'AI Search', value: 'ai-search', disabled: true },
+            { label: 'AI Generate', value: 'ai-create', disabled: true },
+          ]"
+        />
+      </div>
+    </div>
+    <div class="configs" v-if="!isEmptySlide">
+      <div class="config-item">
+        <Checkbox v-model:value="overwrite">Overwrite existing slides</Checkbox>
+      </div>
+    </div>
+  </template>
+
+  <div class="preview" v-if="step === 'outline'">
+    <pre ref="outlineRef" v-if="outlineCreating">{{ outline }}</pre>
+    <div class="outline-view" v-else>
+      <OutlineEditor v-model:value="outline" />
+    </div>
+    <div class="btns" v-if="!outlineCreating">
+      <Button class="btn" type="primary" @click="step = 'template'">Select Template</Button>
+      <Button class="btn" @click="outline = ''; step = 'setup'">Regenerate</Button>
+    </div>
+  </div>
+
+  <div class="select-template" v-if="step === 'template'">
+    <div class="templates">
+      <div class="template" 
+        :class="{ 'selected': selectedTemplate === template.id }" 
+        v-for="template in templates" 
+        :key="template.id" 
+        @click="selectedTemplate = template.id"
+      >
+        <img :src="template.cover" :alt="template.name">
+      </div>
+    </div>
+    <div class="btns">
+      <Button class="btn" type="primary" @click="createPPT()">Generate</Button>
+      <Button class="btn" @click="step = 'outline'">Back to Outline</Button>
+    </div>
+  </div>
+
+  <FullscreenSpin :loading="loading" tip="Generating with AI, please wait..." />
+</div>
 </template>
 
 <script lang="ts" setup>

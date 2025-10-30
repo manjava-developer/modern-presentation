@@ -35,7 +35,7 @@ export default () => {
 
   const { addHistorySnapshot } = useHistorySnapshot()
 
-  // 创建（插入）一个元素并将其设置为被选中元素
+  // Create (insert) an element and set it as the selected element
   const createElement = (element: PPTElement, callback?: () => void) => {
     slidesStore.addElement(element)
     mainStore.setActiveElementIdList([element.id])
@@ -52,13 +52,13 @@ export default () => {
   }
 
   /**
-   * 创建图片元素
-   * @param src 图片地址
+   * Create image elements
+   * @param src Image URL
    */
   const createImageElement = (src: string) => {
     getImageSize(src).then(({ width, height }) => {
       const scale = height / width
-  
+
       if (scale < viewportRatio.value && width > viewportSize.value) {
         width = viewportSize.value
         height = width * scale
@@ -83,8 +83,8 @@ export default () => {
   }
   
   /**
-   * 创建图表元素
-   * @param chartType 图表类型
+   * Create chart elements
+   * @param chartType Chart types
    */
   const createChartElement = (type: ChartType) => {
     createElement({
@@ -101,11 +101,11 @@ export default () => {
       data: CHART_DEFAULT_DATA[type],
     })
   }
-  
+
   /**
-   * 创建表格元素
-   * @param row 行数
-   * @param col 列数
+   * Create table elements
+   * @param row row
+   * @param col col
    */
   const createTableElement = (row: number, col: number) => {
     const style: TableCellStyle = {
@@ -154,11 +154,11 @@ export default () => {
       cellMinHeight: 36,
     })
   }
-  
+
   /**
-   * 创建文本元素
-   * @param position 位置大小信息
-   * @param content 文本内容
+   * Create text element
+   * @param position Location and size information
+   * @param content Text content
    */
   const createTextElement = (position: CommonElementPosition, data?: CreateTextData) => {
     const { left, top, width, height } = position
@@ -169,9 +169,9 @@ export default () => {
     createElement({
       type: 'text',
       id,
-      left, 
-      top, 
-      width, 
+      left,
+      top,
+      width,
       height,
       content,
       rotate: 0,
@@ -185,11 +185,11 @@ export default () => {
       }, 0)
     })
   }
-  
+
   /**
-   * 创建形状元素
-   * @param position 位置大小信息
-   * @param data 形状路径信息
+   * Create shape elements
+   * @param position Location and size information
+   * @param data Shape path information
    */
   const createShapeElement = (position: CommonElementPosition, data: ShapePoolItem, supplement: Partial<PPTShapeElement> = {}) => {
     const { left, top, width, height } = position
@@ -222,11 +222,11 @@ export default () => {
     }
     createElement(newElement)
   }
-  
+
   /**
-   * 创建线条元素
-   * @param position 位置大小信息
-   * @param data 线条的路径和样式
+   * Creating line elements
+   * @param position Location and size information
+   * @param data Line path and style
    */
   const createLineElement = (position: LineElementPosition, data: LinePoolItem) => {
     const { left, top, start, end } = position
@@ -234,8 +234,8 @@ export default () => {
     const newElement: PPTLineElement = {
       type: 'line',
       id: nanoid(10),
-      left, 
-      top, 
+      left,
+      top,
       start,
       end,
       points: data.points,
@@ -249,10 +249,10 @@ export default () => {
     if (data.isCubic) newElement.cubic = [[(start[0] + end[0]) / 2, (start[1] + end[1]) / 2], [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]]
     createElement(newElement)
   }
-  
+
   /**
-   * 创建LaTeX元素
-   * @param svg SVG代码
+   * Creating LaTeX elements
+   * @param svg SVG
    */
   const createLatexElement = (data: { path: string; latex: string; w: number; h: number; }) => {
     createElement({
@@ -271,10 +271,10 @@ export default () => {
       fixedRatio: true,
     })
   }
-  
+
   /**
-   * 创建视频元素
-   * @param src 视频地址
+   * Create video elements
+   * @param src Video address
    */
   const createVideoElement = (src: string, ext?: string) => {
     const newElement: PPTVideoElement = {
@@ -291,10 +291,10 @@ export default () => {
     if (ext) newElement.ext = ext
     createElement(newElement)
   }
-  
+
   /**
-   * 创建音频元素
-   * @param src 音频地址
+   * Create audio elements
+   * @param src // Synchronize data after dragging and dropping to adjust the order.
    */
   const createAudioElement = (src: string, ext?: string) => {
     const newElement: PPTAudioElement = {

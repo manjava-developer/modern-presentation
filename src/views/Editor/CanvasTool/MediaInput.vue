@@ -1,33 +1,35 @@
 <template>
   <div class="media-input">
-    <Tabs 
-      :tabs="tabs" 
-      v-model:value="type" 
-      :tabsStyle="{ marginBottom: '15px' }" 
+    <Tabs
+      :tabs="tabs"
+      v-model:value="type"
+      :tabsStyle="{ marginBottom: '15px' }"
     />
 
+    <!-- Video Input Section -->
     <template v-if="type === 'video'">
-      <Input v-model:value="videoSrc" placeholder="请输入视频地址，e.g. https://xxx.mp4"></Input>
+      <Input v-model:value="videoSrc" placeholder="Please enter the video URL, e.g. https://xxx.mp4"></Input>
       <div class="btns">
         <FileInput accept="video/*" @change="files => uploadVideo(files)">
-          <Button>上传本地视频</Button>
+          <Button>Upload local video</Button>
         </FileInput>
         <div class="group">
-          <Button @click="emit('close')" style="margin-right: 10px;">取消</Button>
-          <Button type="primary" @click="insertVideo()">确认</Button>
+          <Button @click="emit('close')" style="margin-right: 10px;">Cancel</Button>
+          <Button type="primary" @click="insertVideo()">Confirm</Button>
         </div>
       </div>
     </template>
 
+    <!-- Audio Input Section -->
     <template v-if="type === 'audio'">
-      <Input v-model:value="audioSrc" placeholder="请输入音频地址，e.g. https://xxx.mp3"></Input>
+      <Input v-model:value="audioSrc" placeholder="Please enter the audio URL, e.g. https://xxx.mp3"></Input>
       <div class="btns">
         <FileInput accept="audio/*" @change="files => uploadAudio(files)">
-          <Button>上传本地音频</Button>
+          <Button>Upload local audio</Button>
         </FileInput>
         <div class="group">
-          <Button @click="emit('close')" style="margin-right: 10px;">取消</Button>
-          <Button type="primary" @click="insertAudio()">确认</Button>
+          <Button @click="emit('close')" style="margin-right: 10px;">Cancel</Button>
+          <Button type="primary" @click="insertAudio()">Confirm</Button>
         </div>
       </div>
     </template>
@@ -44,7 +46,7 @@ import FileInput from '@/components/FileInput.vue'
 
 const MIME_MAP: { [key: string]: string } = {
 
-  // 音频类型
+  // Audio type
   'audio/aac': 'aac',
   'audio/mpeg': 'mp3',
   'audio/ogg': 'oga',
@@ -56,7 +58,7 @@ const MIME_MAP: { [key: string]: string } = {
   'audio/x-ms-wma': 'wma',
   'audio/midi': 'mid',
 
-  // 视频类型
+  // Video Type
   'video/mp4': 'mp4',
   'video/mpeg': 'mpeg',
   'video/ogg': 'ogv',
@@ -83,21 +85,21 @@ const emit = defineEmits<{
 
 const type = ref<TypeKey>('video')
 
-const videoSrc = ref('https://videos.pexels.com/video-files/29261597/12623866_640_360_24fps.mp4')
-const audioSrc = ref('https://freesound.org/data/previews/614/614107_11861866-lq.mp3')
+const videoSrc = ref() // https://videos.pexels.com/video-files/29261597/12623866_640_360_24fps.mp4
+const audioSrc = ref('') // https://freesound.org/data/previews/614/614107_11861866-lq.mp3
 
 const tabs: TabItem[] = [
-  { key: 'video', label: '视频' },
-  { key: 'audio', label: '音频' },
+  { key: 'video', label: 'Video' },
+  { key: 'audio', label: 'Audio' },
 ]
 
 const insertVideo = () => {
-  if (!videoSrc.value) return message.error('请先输入正确的视频地址')
+  if (!videoSrc.value) return message.error('Please enter the correct video address first.')
   emit('insertVideo', { src: videoSrc.value })
 }
 
 const insertAudio = () => {
-  if (!audioSrc.value) return message.error('请先输入正确的音频地址')
+  if (!audioSrc.value) return message.error('Please enter the correct audio address first.')
   emit('insertAudio', { src: audioSrc.value })
 }
 

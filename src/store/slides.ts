@@ -30,7 +30,7 @@ export interface SlidesState {
 
 export const useSlidesStore = defineStore('slides', {
   state: (): SlidesState => ({
-    title: '未命名演示文稿', // 幻灯片标题
+    title: 'Unnamed presentation', // Slide Title
     theme: {
       themeColors: ['#5b9bd5', '#ed7d31', '#a5a5a5', '#ffc000', '#4472c4', '#70ad47'],
       fontColor: '#333',
@@ -47,28 +47,29 @@ export const useSlidesStore = defineStore('slides', {
         color: '#525252',
         style: 'solid',
       },
-    }, // 主题样式
-    slides: [], // 幻灯片页面数据
-    slideIndex: 0, // 当前页面索引
-    viewportSize: 1000, // 可视区域宽度基数
-    viewportRatio: 0.5625, // 可视区域比例，默认16:9
+    }, // Theme style
+    slides: [], // Slide page data
+    slideIndex: 0, // Current page index
+    viewportSize: 1000, // Base width of the viewport
+    viewportRatio: 0.5625, // Viewport aspect ratio, default 16:9
+
     templates: [
-      { name: '山河映红', id: 'template_1', cover: './imgs/template_1.webp', origin: '官方制作' },
-      { name: '都市蓝调', id: 'template_2', cover: './imgs/template_2.webp', origin: '官方制作' },
-      { name: '智感几何', id: 'template_3', cover: './imgs/template_3.webp', origin: '官方制作' },
-      { name: '柔光莫兰迪', id: 'template_4', cover: './imgs/template_4.webp', origin: '官方制作' },
-      { name: '简约绿意', id: 'template_5', cover: './imgs/template_5.webp', origin: '社区贡献+官方深度完善优化' },
-      { name: '暖色复古', id: 'template_6', cover: './imgs/template_6.webp', origin: '社区贡献+官方深度完善优化' },
-      { name: '深邃沉稳', id: 'template_7', cover: './imgs/template_7.webp', origin: '社区贡献+官方深度完善优化' },
-      { name: '浅蓝小清新', id: 'template_8', cover: './imgs/template_8.webp', origin: '社区贡献+官方深度完善优化' },
-    ], // 模板
+      { name: 'Mountains in Red', id: 'template_1', cover: './imgs/template_1.webp', origin: 'Official Production' },
+      { name: 'Urban Blues', id: 'template_2', cover: './imgs/template_2.webp', origin: 'Official Production' },
+      { name: 'Smart Geometry', id: 'template_3', cover: './imgs/template_3.webp', origin: 'Official Production' },
+      { name: 'Soft Morandi', id: 'template_4', cover: './imgs/template_4.webp', origin: 'Official Production' },
+      { name: 'Minimal Green', id: 'template_5', cover: './imgs/template_5.webp', origin: 'Community Contribution + Official Enhanced Version' },
+      { name: 'Warm Vintage', id: 'template_6', cover: './imgs/template_6.webp', origin: 'Community Contribution + Official Enhanced Version' },
+      { name: 'Deep Calm', id: 'template_7', cover: './imgs/template_7.webp', origin: 'Community Contribution + Official Enhanced Version' },
+      { name: 'Fresh Light Blue', id: 'template_8', cover: './imgs/template_8.webp', origin: 'Community Contribution + Official Enhanced Version' },
+    ], // Templates
   }),
 
   getters: {
     currentSlide(state) {
       return state.slides[state.slideIndex]
     },
-  
+
     currentSlideAnimations(state) {
       const currentSlide = state.slides[state.slideIndex]
       if (!currentSlide?.animations) return []
@@ -78,9 +79,10 @@ export const useSlidesStore = defineStore('slides', {
       return currentSlide.animations.filter(animation => elIds.includes(animation.elId))
     },
 
-    // 格式化的当前页动画
-    // 将触发条件为“与上一动画同时”的项目向上合并到序列中的同一位置
-    // 为触发条件为“上一动画之后”项目的上一项添加自动向下执行标记
+    // Formatted current page animations
+    // Merge items with trigger condition "With previous animation" upward to the same position in the sequence
+    // Add an auto-execute flag to the previous item for items with trigger condition "After previous animation"
+
     formatedAnimations(state) {
       const currentSlide = state.slides[state.slideIndex]
       if (!currentSlide?.animations) return []
@@ -120,23 +122,23 @@ export const useSlidesStore = defineStore('slides', {
     setTheme(themeProps: Partial<SlideTheme>) {
       this.theme = { ...this.theme, ...themeProps }
     },
-  
+
     setViewportSize(size: number) {
       this.viewportSize = size
     },
-  
+
     setViewportRatio(viewportRatio: number) {
       this.viewportRatio = viewportRatio
     },
-  
+
     setSlides(slides: Slide[]) {
       this.slides = slides
     },
-  
+
     setTemplates(templates: SlideTemplate[]) {
       this.templates = templates
     },
-  
+
     addSlide(slide: Slide | Slide[]) {
       const slides = Array.isArray(slide) ? slide : [slide]
       for (const slide of slides) {
@@ -147,12 +149,12 @@ export const useSlidesStore = defineStore('slides', {
       this.slides.splice(addIndex, 0, ...slides)
       this.slideIndex = addIndex
     },
-  
+
     updateSlide(props: Partial<Slide>, slideId?: string) {
       const slideIndex = slideId ? this.slides.findIndex(item => item.id === slideId) : this.slideIndex
       this.slides[slideIndex] = { ...this.slides[slideIndex], ...props }
     },
-  
+
     removeSlideProps(data: RemovePropData) {
       const { id, propName } = data
 
@@ -161,11 +163,11 @@ export const useSlidesStore = defineStore('slides', {
       }) as Slide[]
       this.slides = slides
     },
-  
+
     deleteSlide(slideId: string | string[]) {
       const slidesId = Array.isArray(slideId) ? slideId : [slideId]
       const slides: Slide[] = JSON.parse(JSON.stringify(this.slides))
-  
+
       const deleteSlidesIndex = []
       for (const deletedId of slidesId) {
         const index = slides.findIndex(item => item.id === deletedId)
@@ -183,18 +185,18 @@ export const useSlidesStore = defineStore('slides', {
         slides.splice(index, 1)
       }
       let newIndex = Math.min(...deleteSlidesIndex)
-  
+
       const maxIndex = slides.length - 1
       if (newIndex > maxIndex) newIndex = maxIndex
-  
+
       this.slideIndex = newIndex
       this.slides = slides
     },
-  
+
     updateSlideIndex(index: number) {
       this.slideIndex = index
     },
-  
+
     addElement(element: PPTElement | PPTElement[]) {
       const elements = Array.isArray(element) ? element : [element]
       const currentSlideEls = this.slides[this.slideIndex].elements
@@ -208,7 +210,7 @@ export const useSlidesStore = defineStore('slides', {
       const newEls = currentSlideEls.filter(item => !elementIdList.includes(item.id))
       this.slides[this.slideIndex].elements = newEls
     },
-  
+
     updateElement(data: UpdateElementData) {
       const { id, props, slideId } = data
       const elIdList = typeof id === 'string' ? [id] : id
@@ -220,11 +222,11 @@ export const useSlidesStore = defineStore('slides', {
       })
       this.slides[slideIndex].elements = (elements as PPTElement[])
     },
-  
+
     removeElementProps(data: RemovePropData) {
       const { id, propName } = data
       const propsNames = typeof propName === 'string' ? [propName] : propName
-  
+
       const slideIndex = this.slideIndex
       const slide = this.slides[slideIndex]
       const elements = slide.elements.map(el => {

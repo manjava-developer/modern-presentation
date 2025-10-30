@@ -1,9 +1,9 @@
 <template>
-  <MoveablePanel 
-    class="symbol-panel" 
-    :width="350" 
-    :height="560" 
-    :left="-270" 
+  <MoveablePanel
+    class="symbol-panel"
+    :width="440"
+    :height="560"
+    :left="-270"
     :top="90"
     :contentStyle="{
       overflow: 'hidden',
@@ -12,14 +12,14 @@
     }"
   >
     <div class="close-btn" @click="close()" @mousedown.stop><IconClose /></div>
-    <Tabs 
-      :tabs="tabs" 
-      v-model:value="selectedSymbolKey" 
-      :tabsStyle="{ marginBottom: '8px' }" 
+    <Tabs
+      :tabs="tabs"
+      v-model:value="selectedSymbolKey"
+      :tabsStyle="{ marginBottom: '8px' }"
     />
 
     <div class="emoji-types" v-if="selectedSymbolKey === 'emoji'">
-      <div class="emoji-type" 
+      <div class="emoji-type"
         :class="{'active': selectedEmojiTypeIndex === index}"
         v-for="(item, index) in emojiTypeList"
         :key="index"
@@ -53,7 +53,7 @@ const { handleElement } = storeToRefs(mainStore)
 const { createTextElement } = useCreateElement()
 
 const selectedSymbolKey = ref(SYMBOL_LIST[0].key)
-const emojiTypeList = ref(['表情', '动作', '动植物', '食物', '旅行', '活动', '物品', '符号'])
+const emojiTypeList = ref(['Emotion', 'Action', 'Animal', 'Food', 'Travel', 'Activities', 'Object', 'Symbol'])
 const selectedEmojiTypeIndex = ref(0)
 const symbolPool = computed(() => {
   const selectedSymbol = SYMBOL_LIST.find(item => item.key === selectedSymbolKey.value)

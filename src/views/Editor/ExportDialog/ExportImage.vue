@@ -1,40 +1,43 @@
 <template>
   <div class="export-img-dialog">
+    <!-- Thumbnails View -->
     <div class="thumbnails-view">
       <div class="thumbnails" ref="imageThumbnailsRef">
-        <ThumbnailSlide 
-          class="thumbnail" 
-          v-for="slide in renderSlides" 
-          :key="slide.id" 
-          :slide="slide" 
-          :size="1600" 
+        <!-- Loop through slides to create thumbnails -->
+        <ThumbnailSlide
+          class="thumbnail"
+          v-for="slide in renderSlides"
+          :key="slide.id"
+          :slide="slide"
+          :size="1600"
         />
       </div>
     </div>
+
+    <!-- Configuration Options -->
     <div class="configs">
+      <!-- Export Format -->
       <div class="row">
-        <div class="title">导出格式：</div>
-        <RadioGroup
-          class="config-item"
-          v-model:value="format"
-        >
+        <div class="title">Export Format</div>
+        <RadioGroup class="config-item" v-model:value="format">
           <RadioButton style="width: 50%;" value="jpeg">JPEG</RadioButton>
           <RadioButton style="width: 50%;" value="png">PNG</RadioButton>
         </RadioGroup>
       </div>
+
+      <!-- Export Range -->
       <div class="row">
-        <div class="title">导出范围：</div>
-        <RadioGroup
-          class="config-item"
-          v-model:value="rangeType"
-        >
-          <RadioButton style="width: 33.33%;" value="all">全部</RadioButton>
-          <RadioButton style="width: 33.33%;" value="current">当前页</RadioButton>
-          <RadioButton style="width: 33.33%;" value="custom">自定义</RadioButton>
+        <div class="title">Export Range:</div>
+        <RadioGroup class="config-item" v-model:value="rangeType">
+          <RadioButton style="width: 25%;" value="all">All</RadioButton>
+          <RadioButton style="width: 45%;" value="current">Current Page</RadioButton>
+          <RadioButton style="width: 35%;" value="custom">Custom</RadioButton>
         </RadioGroup>
       </div>
+
+      <!-- Custom Range (Visible when "custom" is selected) -->
       <div class="row" v-if="rangeType === 'custom'">
-        <div class="title" :data-range="`（${range[0]} ~ ${range[1]}）`">自定义范围：</div>
+        <div class="title" :data-range="`(${range[0]} ~ ${range[1]})`">Custom Range:</div>
         <Slider
           class="config-item"
           range
@@ -45,8 +48,9 @@
         />
       </div>
 
+      <!-- Image Quality -->
       <div class="row">
-        <div class="title">图片质量：</div>
+        <div class="title">Image Quality:</div>
         <Slider
           class="config-item"
           :min="0"
@@ -56,20 +60,28 @@
         />
       </div>
 
+      <!-- Ignore Web Fonts Option -->
       <div class="row">
-        <div class="title">忽略在线字体：</div>
+        <div class="title">Ignore Web Fonts:</div>
         <div class="config-item">
-          <Switch v-model:value="ignoreWebfont" v-tooltip="'导出时默认忽略在线字体，若您在幻灯片中使用了在线字体，且希望导出后保留相关样式，可选择关闭【忽略在线字体】选项，但要注意这将会增加导出用时。'" />
+          <Switch 
+            v-model:value="ignoreWebfont" 
+            v-tooltip="'By default, web fonts are ignored during export. If you have used web fonts in the slides and want to retain the related styles, you can choose to disable the “Ignore Web Fonts” option. However, be aware that this will increase export time.'"
+          />
         </div>
       </div>
     </div>
 
+    <!-- Export and Close Buttons -->
     <div class="btns">
-      <Button class="btn export" type="primary" @click="expImage()"><IconDownload /> 导出图片</Button>
-      <Button class="btn close" @click="emit('close')">关闭</Button>
+      <Button class="btn export" type="primary" @click="expImage()">
+        <IconDownload /> Export Image
+      </Button>
+      <Button class="btn close" @click="emit('close')">Close</Button>
     </div>
 
-    <FullscreenSpin :loading="exporting" tip="正在导出..." />
+    <!-- Loading Spinner -->
+    <FullscreenSpin :loading="exporting" tip="Exporting..." />
   </div>
 </template>
 
@@ -137,7 +149,7 @@ const expImage = () => {
   }
 }
 .configs {
-  width: 350px;
+  width: 450px;
   height: calc(100% - 80px);
   display: flex;
   flex-direction: column;
@@ -152,7 +164,7 @@ const expImage = () => {
   }
 
   .title {
-    width: 100px;
+    width: 160px;
     position: relative;
 
     &::after {

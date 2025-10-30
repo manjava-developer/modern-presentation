@@ -17,7 +17,7 @@ export default () => {
 
   const { addHistorySnapshot } = useHistorySnapshot()
 
-  // 获取指定幻灯片内的主要主题样式，并以在当中的占比进行排序
+  // Retrieves the main theme styles within a specified slide and sorts them by their proportion within the slide.
   const getSlidesThemeStyles = (slide: Slide | Slide[]) => {
     const slides = Array.isArray(slide) ? slide : [slide]
 
@@ -49,9 +49,9 @@ export default () => {
           elHeight = Math.sqrt(Math.pow(Math.abs(startX - endX), 2) + Math.pow(Math.abs(startY - endY), 2))
         }
         else elHeight = el.height
-  
+
         const area = elWidth * elHeight
-  
+
         if (el.type === 'shape' || el.type === 'text') {
           if (el.fill) {
             themeColorValues.push({ area, value: el.fill })
@@ -70,10 +70,10 @@ export default () => {
           const plainText = text.replace(/<[^>]+>/g, '').replace(/\s*/g, '')
           const matchForColor = text.match(/<[^>]+color: .+?<\/.+?>/g)
           const matchForFont = text.match(/<[^>]+font-family: .+?<\/.+?>/g)
-  
+
           let defaultColorPercent = 1
           let defaultFontPercent = 1
-  
+
           if (matchForColor) {
             for (const item of matchForColor) {
               const ret = item.match(/color: (.+?);/)
@@ -82,7 +82,7 @@ export default () => {
               const color = ret[1]
               const percentage = text.length / plainText.length
               defaultColorPercent = defaultColorPercent - percentage
-              
+
               fontColorValues.push({
                 area: area * percentage,
                 value: color,
@@ -97,14 +97,14 @@ export default () => {
               const font = ret[1]
               const percentage = text.length / plainText.length
               defaultFontPercent = defaultFontPercent - percentage
-              
+
               fontNameValues.push({
                 area: area * percentage,
                 value: font,
               })
             }
           }
-  
+
           if (defaultColorPercent) {
             const _defaultColor = el.type === 'shape' ? el.text?.defaultColor : el.defaultColor
             const defaultColor = _defaultColor || theme.value.fontColor
@@ -171,7 +171,7 @@ export default () => {
         }
       }
     }
-    
+
     const backgroundColors: { [key: string]: number } = {}
     for (const item of backgroundColorValues) {
       const color = tinycolor(item.value).toRgbString()
@@ -195,7 +195,7 @@ export default () => {
       if (!fontColors[color]) fontColors[color] = item.area
       else fontColors[color] += item.area
     }
-  
+
     const fontNames: { [key: string]: number } = {}
     for (const item of fontNameValues) {
       if (!fontNames[item.value]) fontNames[item.value] = item.area
@@ -210,7 +210,7 @@ export default () => {
     }
   }
 
-  // 获取指定幻灯片内的主要颜色（忽略透明度），并按颜色面积排序
+  // Get the dominant color (ignore transparency) within a specified slide and sort by color area.
   const getSlideAllColors = (slide: Slide) => {
     const colorMap: { [key: string]: number } = {}
 
@@ -256,13 +256,13 @@ export default () => {
     const colors = Object.keys(colorMap).sort((a, b) => colorMap[b] - colorMap[a])
     return colors
   }
-  
-  // 创建原颜色与新颜色的对应关系表
+
+  // Create a mapping table between the original color and the new color
   const createSlideThemeColorMap = (slide: Slide, _newColors: string[]): { [key: string]: string } => {
     const newColors = [..._newColors]
     const oldColors = getSlideAllColors(slide)
     const themeColorMap: { [key: string]: string } = {}
-  
+
     if (oldColors.length > newColors.length) {
       const analogous = tinycolor(newColors[0]).analogous(oldColors.length - newColors.length + 10)
       const otherColors = analogous.map(item => item.toHexString()).slice(1)
@@ -271,11 +271,11 @@ export default () => {
     for (let i = 0; i < oldColors.length; i++) {
       themeColorMap[oldColors[i]] = newColors[i]
     }
-  
+
     return themeColorMap
   }
-  
-  // 设置幻灯片主题
+
+  // Set slide theme
   const setSlideTheme = (slide: Slide, theme: PresetTheme) => {
     const colorMap = createSlideThemeColorMap(slide, theme.colors)
 
@@ -284,7 +284,7 @@ export default () => {
       const _color = colorMap[tinycolor(color).setAlpha(1).toRgbString()]
       return _color ? tinycolor(_color).setAlpha(alpha).toRgbString() : color
     }
-  
+
     if (!slide.background || slide.background.type !== 'image') {
       slide.background = {
         type: 'solid',
@@ -338,8 +338,8 @@ export default () => {
       }
     }
   }
-  
-  // 应用预置主题
+
+  // Apply a pre-built theme
   const applyPresetTheme = (theme: PresetTheme, resetSlides = false) => {
     slidesStore.setTheme({
       backgroundColor: theme.background,
@@ -362,8 +362,8 @@ export default () => {
       addHistorySnapshot()
     }
   }
-  
-  // 将当前主题配置应用到全部页面
+
+  // Apply the current theme configuration to all pages
   const applyThemeToAllSlides = (applyAll = false) => {
     const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
 
@@ -376,7 +376,7 @@ export default () => {
       outline: applyAll ? theme.value.outline : undefined,
       shadow: applyAll ? theme.value.shadow : undefined,
     }
-  
+
     for (const slide of newSlides) {
       setSlideTheme(slide, _theme)
     }

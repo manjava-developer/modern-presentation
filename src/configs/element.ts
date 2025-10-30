@@ -10,6 +10,18 @@ export const ELEMENT_TYPE_ZH: { [key: string]: string } = {
   latex: '公式',
 }
 
+export const ELEMENT_TYPE_EN: { [key: string]: string } = {
+  text: 'Text',
+  image: 'Image',
+  shape: 'Shape',
+  line: 'Line',
+  chart: 'Chart',
+  table: 'Table',
+  video: 'Video',
+  audio: 'Audio',
+  latex: 'Formula',
+}
+
 export const MIN_SIZE: { [key: string]: number } = {
   text: 40,
   image: 20,

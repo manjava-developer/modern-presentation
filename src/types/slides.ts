@@ -492,20 +492,19 @@ export interface TableCellStyle {
   align?: TextAlign
 }
 
-
 /**
- * 表格单元格
- * 
- * id: 单元格ID
- * 
- * colspan: 合并列数
- * 
- * rowspan: 合并行数
- * 
- * text: 文字内容
- * 
- * style?: 单元格样式
- */
+* Table cell
+*
+* id: Cell ID
+*
+* colspan: Number of columns to merge
+*
+* rowspan: Number of rows to merge
+*
+* text: Text content
+*
+* style?: Cell style
+*/
 export interface TableCell {
   id: string
   colspan: number

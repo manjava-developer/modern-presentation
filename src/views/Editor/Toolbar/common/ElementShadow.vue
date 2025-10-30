@@ -1,25 +1,25 @@
 <template>
   <div class="element-shadow">
     <div class="row">
-      <div style="width: 40%;">启用阴影：</div>
+      <div style="width: 60%;">Enable shadows</div>
       <div class="switch-wrapper" style="width: 60%;">
         <Switch :value="hasShadow" @update:value="value => toggleShadow(value)" />
       </div>
     </div>
     <template v-if="hasShadow && shadow">
       <div class="row">
-        <div style="width: 40%;">水平阴影：</div>
+        <div style="width: 40%;">Horizontal</div>
         <Slider 
           style="width: 60%;"
-          :min="-10" 
-          :max="10" 
-          :step="1" 
-          :value="shadow.h" 
+          :min="-10"
+          :max="10"
+          :step="1"
+          :value="shadow.h"
           @update:value="value => updateShadow({ h: value as number })"
         />
       </div>
       <div class="row">
-        <div style="width: 40%;">垂直阴影：</div>
+        <div style="width: 40%;">Vertical</div>
         <Slider
           style="width: 60%;"
           :min="-10"
@@ -30,7 +30,7 @@
         />
       </div>
       <div class="row">
-        <div style="width: 40%;">模糊距离：</div>
+        <div style="width: 40%;">Fuzzy</div>
         <Slider
           style="width: 60%;"
           :min="1"
@@ -41,7 +41,7 @@
         />
       </div>
       <div class="row">
-        <div style="width: 40%;">阴影颜色：</div>
+        <div style="width: 40%;">Shadow color</div>
         <Popover trigger="click" style="width: 60%;">
           <template #content>
             <ColorPicker

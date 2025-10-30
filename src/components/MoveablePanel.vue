@@ -21,8 +21,8 @@
     </template>
 
     <div
-      class="content" 
-      :style="contentStyle || {}" 
+      class="content"
+      :style="contentStyle || {}"
       @mousedown="$event => startMove($event)"
       v-else
     >
